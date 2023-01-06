@@ -70,14 +70,12 @@ li,
   cursor: pointer;
   justify-content: center;
 }
-
 .controls .row select {
   border: none;
   outline: none;
   font-size: 15px;
   background: none;
 }
-
 .controls .exchange {
   color: #9f9f9f;
   font-size: 16px;
@@ -96,4 +94,28 @@ li,
 }
 .fa-volume-up {
   padding-right: 5px;
+}
+.trans.from,
+.trans.to {
+  height: 40px;
+  width: 40%;
+  border-style: solid;
+  outline: none;
+  resize: none;
+  font-size: 18px;
+  border-radius: 5px;
+  background: none;
+  padding: 5px 10px;
+  margin: 4.5px;
+  border: 2px solid rgb(0, 0, 0);
+}
+.trans-box {
+  position: relative;
+  left: 25%;
+  width: 60%;
+}
+.word-by-word {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
 }
