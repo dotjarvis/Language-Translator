@@ -1,49 +1,95 @@
-const encodedParams = new URLSearchParams();
-encodedParams.append("q", "English is hard, but detectably so what do you say");
+const selectTag = document.querySelectorAll("select");
+const fromText = document.querySelector(".from-text");
+const toText = document.querySelector(".to-text");
+const translatebtn = document.querySelector("button");
+const exchangeIcon = document.querySelector(".fa-exchange-alt");
+const icons = document.querySelectorAll(".icons");
+const transBox = document.querySelector(".trans-box");
+const container = document.querySelector(".container");
 
-const options = {
-  method: "POST",
-  headers: {
-    "content-type": "application/x-www-form-urlencoded",
-    "Accept-Encoding": "application/gzip",
-    "X-RapidAPI-Key": "SIGN-UP-FOR-KEY",
-    "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
-  },
-  body: encodedParams,
-};
+selectTag.forEach((tag, id) => {
+  for (const country_code in countries) {
+    let selected;
+    if (id == 0 && country_code == "en-GB") {
+      selected = "selected";
+    } else if (id == 1 && country_code == "es-ES") {
+      selected = "selected";
+    }
+    const html = ` <option value="${country_code}" ${selected}>${countries[country_code]}</option>`;
+    tag.insertAdjacentHTML(`beforeend`, html);
+  }
+});
 
-fetch(
-  "https://google-translate1.p.rapidapi.com/language/translate/v2/detect",
-  options
-)
-  .then((response) => response.json())
-  .then((response) => console.log(response))
-  .catch((err) => console.error(err));
+exchangeIcon.addEventListener("click", () => {
+  [fromText.value, toText.value] = [toText.value, fromText.value];
+  [selectTag[0].value, selectTag[1].value] = [
+    selectTag[1].value,
+    selectTag[0].value,
+  ];
+});
 
-// const axios = require("axios");
+translatebtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  let text = fromText.value;
+  if (!text) return;
+  let translateFrom = selectTag[0].value;
+  let translateTo = selectTag[1].value;
+  const apiurl = `https:api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
 
-// const encodedParams = new URLSearchParams();
-// encodedParams.append("q", "Hello, world!");
-// encodedParams.append("target", "es");
-// encodedParams.append("source", "en");
+  fetch(apiurl)
+    .then((res) => res.json())
+    .then((data) => {
+      toText.value = data.responseData.translatedText;
+    });
 
-// const options = {
-//   method: "POST",
-//   url: "https://google-translate1.p.rapidapi.com/language/translate/v2",
-//   headers: {
-//     "content-type": "application/x-www-form-urlencoded",
-//     "Accept-Encoding": "application/gzip",
-//     "X-RapidAPI-Key": "SIGN-UP-FOR-KEY",
-//     "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
-//   },
-//   data: encodedParams,
-// };
+  const after = `<br /><br />
+      <div class="word-by-word">Word by word</div><br />
+      <hr /><br />`;
 
-// axios
-//   .request(options)
-//   .then(function (response) {
-//     console.log(response.data);
-//   })
-//   .catch(function (error) {
-//     console.error(error);
-//   });
+  // additional
+  const wordByWord = async function () {
+    const words = fromText.value.split(" ");
+    for (let word in words) {
+      const apiurl = `https:api.mymemory.translated.net/get?q=${words[word]}&langpair=${translateFrom}|${translateTo}`;
+
+      const res = await fetch(apiurl);
+      const data = await res.json();
+
+      const html = ` <textarea class="trans from" readonly>${words[word]}</textarea>
+        <textarea class="trans to" readonly>${data.responseData.translatedText}</textarea>`;
+
+      transBox.insertAdjacentHTML("beforeend", html);
+    }
+  };
+
+  transBox.innerHTML = "";
+  transBox.insertAdjacentHTML("beforeend", after);
+
+  wordByWord();
+});
+
+icons.forEach((icons) => {
+  icons.addEventListener("click", ({ target }) => {
+    if (target.classList.contains("fa-copy")) {
+      if (target.classList.contains("from")) {
+        navigator.clipboard.writeText(fromText.value);
+      } else {
+        navigator.clipboard.writeText(toText.value);
+      }
+    } else {
+      if ("speechSynthesis" in window) {
+        let utterance;
+        if (target.classList.contains("from")) {
+          utterance = new SpeechSynthesisUtterance(fromText.value);
+          utterance.lang = selectTag[0].value;
+        } else {
+          utterance = new SpeechSynthesisUtterance(toText.value);
+          utterance.lang = selectTag[1].value;
+        }
+        speechSynthesis.speak(utterance);
+      } else {
+        alert("Speech synthesis is not supported in this browser.");
+      }
+    }
+  });
+});
