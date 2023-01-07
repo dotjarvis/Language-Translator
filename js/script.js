@@ -37,10 +37,31 @@ translatebtn.addEventListener("click", function (e) {
   const apiurl = `https:api.mymemory.translated.net/get?q=${text}&langpair=${translateFrom}|${translateTo}`;
 
   fetch(apiurl)
-    .then((res) => res.json())
-    .then((data) => {
-      toText.value = data.responseData.translatedText;
-    });
+    .then((res) => {
+      responseClone = res.json();
+      return res.json();
+    })
+    .then(
+      (data) => {
+        toText.value = data.responseData.translatedText;
+      },
+      function (rejectionReason) {
+        // 3
+        console.log(
+          "Error parsing JSON from response:",
+          rejectionReason,
+          responseClone
+        ); // 4
+        responseClone
+          .text() // 5
+          .then(function (bodyText) {
+            console.log(
+              "Received the following instead of valid JSON:",
+              bodyText
+            ); // 6
+          });
+      }
+    );
 
   const after = `<br /><br />
       <div class="word-by-word">Word by word</div><br />
