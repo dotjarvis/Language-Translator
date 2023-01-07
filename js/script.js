@@ -39,7 +39,7 @@ translatebtn.addEventListener("click", function (e) {
   fetch(apiurl)
     .then((res) => {
       responseClone = res.json();
-      return res.json();
+      return responseClone;
     })
     .then(
       (data) => {
