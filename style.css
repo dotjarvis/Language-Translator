@@ -4,19 +4,26 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
+html {
+  font-size: 62.5%;
+}
+
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #5372f0;
+  background: #f7f7f7;
 }
+
 .container {
-  width: 690px;
-  background: #fff;
-  border-radius: 7px;
-  padding: 30px;
+  width: 69rem;
+  background: #f7f7f7;
+  border-radius: 0.7rem;
+  /* padding: 3rem; */
 }
+
 .wrapper {
   border-radius: 5px;
   border: 1px solid #bbb;
@@ -78,22 +85,26 @@ li,
   background: none;
 }
 
-.controls .exchange {
-  color: #9f9f9f;
-  font-size: 16px;
-  cursor: pointer;
-}
 .container button {
   width: 100%;
   padding: 14px;
+  font-size: 16px;
+
   margin-top: 20px;
   border: none;
   outline: none;
   cursor: pointer;
   color: #fff;
   border-radius: 5px;
-  background: #5372f0;
+  background: #5571df;
+  transition: all 0.3s;
 }
-.fa-volume-up {
-  padding-right: 5px;
+
+.container button:hover {
+  background: #445ab2;
+}
+
+.icon {
+  height: 1.8rem;
+  width: 1.8rem;
 }

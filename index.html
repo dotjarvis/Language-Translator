@@ -11,6 +11,12 @@
     />
 
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/notyf/notyf.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/notyf/notyf.min.js"></script>
+
     <script defer src="js/countries.js"></script>
     <script defer src="js/script.js"></script>
   </head>
@@ -30,17 +36,31 @@
         <ul class="controls">
           <li class="row from">
             <div class="icons">
-              <i class="fas from fa-volume-up"></i>
-              <i class="fas from fa-copy"></i>
+              <img
+                class="icon icon--volume"
+                src="img/volume.svg"
+                alt="Volume icon"
+              />
+              <img class="icon icon--copy" src="img/copy.svg" alt="Copy icon" />
             </div>
             <select></select>
           </li>
-          <li class="exchange"><i class="fas fa-exchange-alt"></i></li>
+          <li class="exchange">
+            <img
+              class="icon icon--exchange"
+              src="img/exchange-alt.svg"
+              alt="Exchange icon"
+            />
+          </li>
           <li class="row to">
             <select></select>
             <div class="icons">
-              <i class="fas to fa-volume-up"></i>
-              <i class="fas to fa-copy"></i>
+              <img
+                class="icon icon--volume"
+                src="img/volume.svg"
+                alt="Volume icon"
+              />
+              <img class="icon icon--copy" src="img/copy.svg" alt="Copy icon" />
             </div>
           </li>
         </ul>
